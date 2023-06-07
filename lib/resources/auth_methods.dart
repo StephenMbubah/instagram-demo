@@ -5,12 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:instagram_demo/resources/storage_method.dart';
 
 
-
 class AuthMethods{
   final FirebaseAuth _auth= FirebaseAuth.instance;
   final FirebaseFirestore _firestore= FirebaseFirestore.instance;
 
-  //signup user
+  //a function for signup user
   Future <String>signUpUser ({
     required String email,
     required String password,
@@ -42,4 +41,25 @@ class AuthMethods{
     }
     return res;
   }
+  //create a function for logging in users
+  Future<String> Login({
+    required String email,
+    required String password,
+})async{
+    String res= "some error occured";
+    try{
+      if(email.isNotEmpty || password.isNotEmpty){
+        await _auth.signInWithEmailAndPassword(email: email, password: password);
+        res = "success";
+        print("login was successful");
+      }else{
+        res = "Please enter your credentials";
+        print('login failed');
+      }
+    }catch(err){
+      res= err.toString();
+    }
+    return res;
+}
+
 }
